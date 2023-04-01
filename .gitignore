@@ -1,3 +1,7 @@
 /data/test.csv
 /data/train.csv
 /data/validation.csv
+/data/reference_metrics.csv
+/data/reference_metrics_full.csv
+
+/.vscode/launch.json
