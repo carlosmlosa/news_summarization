@@ -18,7 +18,7 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, TimeDistributed
-from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import EarlyStopping
 import tensorflow as tf
 import pickle
@@ -332,7 +332,7 @@ def train_model(post_pre, model_path, test_size=0.1, max_text_len=1700, max_summ
 
 def load_model(path):
     """Returns a tuple with the model and the tokenizers -> model, x_tokenizer, y_tokenizer"""
-    return load_model(path + 'model.h5'), load_tokenizer(path + '/tokenizers/x_tokenizer.pickle'), load_tokenizer(path + '/tokenizers/y_tokenizer.pickle')
+    return tf.keras.models.load_model(path + '/model.h5'), load_tokenizer(path + '/tokenizers/x_tokenizer.pickle'), load_tokenizer(path + '/tokenizers/y_tokenizer.pickle')
 
 
 
