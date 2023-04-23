@@ -31,8 +31,9 @@ class TwitterBot:
         self.ns = NewsScraper()
         self.mentions_queue = []  # list of tweet objects to which we have to reply yet
         self.replies_list = pd.read_csv(
-            'replies_list.csv')  # df containing a column id with the ids of the tw already replied
+            'twitter_bot/replies.csv')  # df containing a column id with the ids of the tw already replied
         self.model = Summarizer()  # Model to summarize the texts
+        self.screen_name = self.api.verify_credentials().screen_name
 
     def thread(self, tweet, text):
         """Given a thread, it tweets making a thread"""
@@ -70,9 +71,13 @@ class TwitterBot:
                 tweet = self.thread(tweet, '. '.join(to_tweet))
 
     def check_mentions(self):
-        mentions = self.api.mentions_timeline()
+        if len(self.replies_list) > 0:
+            mentions = self.api.mentions_timeline(max_ids=self.replies_list[-1], count=50)
+        else:
+            mentions = self.api.mentions_timeline()
         for tw in mentions:
-            if tw.id in self.replies_list.id.to_list() or tw in self.mentions_queue:
+            if tw.id in self.replies_list.id.to_list() or tw in self.mentions_queue \
+                    or tw.user.screen_name != self.screen_name:
                 continue
             else:
                 self.mentions_queue.append(tw)

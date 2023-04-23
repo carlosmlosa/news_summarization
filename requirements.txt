@@ -1,0 +1,12 @@
+pandas
+numpy
+tensorflow
+nltk
+requests
+requests-html
+beautifulsoup4
+matplotlib
+tweepy
+lxml
+bert-extractive-summarizer
+textstat
