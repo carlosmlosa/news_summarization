@@ -18,7 +18,7 @@ def get_url(tw):
 # and afterwards publish its summary on Tw
 class TwitterBot:
     def __init__(self):
-        # Keys initialitation
+        # Keys initialization
         config = configparser.ConfigParser()
         config.read('twitter_bot/keys.ini')
         keys = config['secret']
@@ -31,7 +31,7 @@ class TwitterBot:
         self.ns = NewsScraper()
         self.mentions_queue = []  # list of tweet objects to which we have to reply yet
         self.replies_list = pd.read_csv(
-            'twitter_bot/replies.csv')  # df containing a column id with the ids of the tw already replied
+            'twitter_bot/replies.csv').id.to_list()  # df containing a column id with the ids of the tw already replied
         self.model = Summarizer()  # Model to summarize the texts
         self.screen_name = self.api.verify_credentials().screen_name
 
@@ -47,15 +47,14 @@ class TwitterBot:
         Given a summary it tweets it replying to the user, making a thread if the text is longer than 280 chars
         :param text: text to tweet
         :param tweet: tweet mentioning our bot
-        :param media: if pictures are needed, pass a list
         :return: tweet object
         """
         if len(text) <= 270:
             self.thread(tweet, text)
         # Distribute the sentence into readable threads
         sentences = text.split('. ')
+        to_tweet, n = [], 0
         while sentences:
-            to_tweet, n = [], 0
             # We form threads of readable sentences
             if n + len(sentences[0]) < 270:
                 to_tweet.append(sentences[0])
@@ -64,11 +63,12 @@ class TwitterBot:
             elif len(sentences[0]) > 270:
                 # If we have a too big sentence we just break it into two
                 to_break = sentences.pop(0)
-                sentences.insert(0, to_break[len(to_break) / 2:len(to_break)])
-                sentences.insert(0, to_break[0:len(to_break) / 2])
+                sentences.insert(0, to_break[len(to_break) // 2:len(to_break)])
+                sentences.insert(0, to_break[0:len(to_break) // 2])
             else:
                 # When we have a big tweet we tweet it
                 tweet = self.thread(tweet, '. '.join(to_tweet))
+                to_tweet, n = [], 0
 
     def check_mentions(self):
         if len(self.replies_list) > 0:
@@ -95,7 +95,7 @@ class TwitterBot:
             return 'ERROR performing summary'
 
     def stream(self, time_to_check=60):
-        """Daemon that runs summarizing every_tweeet, we can set a time to check the mentions"""
+        """Daemon that runs summarizing every_tweet, we can set a time to check the mentions"""
         while True:
             self.check_mentions()
             for mention in self.mentions_queue:

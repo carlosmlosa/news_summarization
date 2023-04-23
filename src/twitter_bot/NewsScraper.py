@@ -4,9 +4,12 @@ import nltk
 import textstat
 import re
 
-class NewsScraper():
+
+class NewsScraper:
+
     def __init__(self):
         self.session = HTMLSession()
+
     def get_new(self, url):
         """Gets HTML text for a new"""
         # make a request to the page
@@ -14,14 +17,18 @@ class NewsScraper():
         # render the JavaScript
         new.html.render()
         return new
+
     def get_plain_text(self, new):
         """Removes all HTML labels"""
         soup = BeautifulSoup(new.text, 'lxml')
         text = soup.get_text()
         return text
+
     def get_readable_text(self, text, threshold=0):
-        """Using tokenizing with nltk, it extracts the readable information of a new, given a threshold of the flesch readability score"""
-        legal_terms = ['Distribution and use of this material', 'All Rights Reserved', 'For non-personal use or to order multiple copies']
+        """Using tokenizing with nltk, it extracts the readable information of a new,
+           given a threshold of the flesch readability score"""
+        legal_terms = ['Distribution and use of this material', 'All Rights Reserved',
+                       'For non-personal use or to order multiple copies']
         words = nltk.word_tokenize(text)
         text = ' '.join(words)
         # Eliminate URLS
@@ -34,7 +41,7 @@ class NewsScraper():
                 if term in item:
                     break
             else:
-                if textstat.flesch_reading_ease(item) > 0:
+                if textstat.flesch_reading_ease(item) > threshold:
                     outputs.append(item)
         return '. '.join(outputs)
 
