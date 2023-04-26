@@ -9,7 +9,10 @@ dir = os.getcwd()
 # print(test.head())
 # print(validation.head())
 
-reference_metrics = pd.read_csv(dir+"/data/reference_metrics_full.csv")
-print(reference_metrics.describe())
-# print("\nText\n",reference_metrics.iloc[2050].Text)
-# print("\nSummary\n",reference_metrics.iloc[2050].Summary)
+reference_metrics = pd.read_csv(dir+"/data/reference_metrics_full.csv",index_col=0)
+sample = reference_metrics.iloc[1]
+print("\nText: \n",sample.Text)
+print("\nHighlights: \n",sample.Highlights)
+print("\nSummary: \n", sample.Summary)
+print(sample)
+

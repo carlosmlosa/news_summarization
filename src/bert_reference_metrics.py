@@ -42,18 +42,20 @@ def evaluate(texts,model):
   return results_df
 
 
-dir = os.getcwd()
-test = pd.read_csv(dir+"/data/test.csv")
+
+if __name__ == "__main__":
+  dir = os.getcwd()
+  test = pd.read_csv(dir+"/data/test.csv")
 
 
 
 
-bert_model = Summarizer(hidden=[-1])
-# bert_summary = ''.join(bert_model(text, min_length=60, max_length=240,ratio=0.5))
-bert_reference_short = evaluate(test.iloc[:500],bert_model)
-print(bert_reference_short.head())
-bert_reference_short.to_csv(dir+"/data/reference_metrics.csv")
+  bert_model = Summarizer(hidden=[-1])
+  # bert_summary = ''.join(bert_model(text, min_length=60, max_length=240,ratio=0.5))
+  bert_reference_short = evaluate(test.iloc[:500],bert_model)
+  print(bert_reference_short.head())
+  bert_reference_short.to_csv(dir+"/data/reference_metrics.csv")
 
-bert_reference_full = evaluate(test,bert_model)
-print(bert_reference_full.head())
-bert_reference_full.to_csv(dir+"/data/reference_metrics_full.csv")
+  bert_reference_full = evaluate(test,bert_model)
+  print(bert_reference_full.head())
+  bert_reference_full.to_csv(dir+"/data/reference_metrics_full.csv")
