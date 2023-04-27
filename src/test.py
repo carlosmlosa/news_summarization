@@ -16,3 +16,9 @@ print("\nHighlights: \n",sample.Highlights)
 print("\nSummary: \n", sample.Summary)
 print(sample)
 
+# print("\n distil_bert")
+# reference_metrics = pd.read_csv(dir+"/data/distilbertbert_test1.csv",index_col=0)
+# sample = reference_metrics.iloc[1]
+# print("\nSummary: \n", sample.Summary)
+# print(sample)
+
