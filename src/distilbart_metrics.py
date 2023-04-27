@@ -15,7 +15,7 @@ def evaluate_distilBART(texts,model):
         segments = []
         current_segment = ""
         for sentence in sentences:
-            if len(current_segment + sentence) > 4096:
+            if len(current_segment + sentence) > 3000:
                 segments.append(current_segment.strip())
                 current_segment = sentence
             else:
@@ -44,13 +44,13 @@ if __name__ == "__main__":
     test = pd.read_csv(dir+"/data/test.csv")
 
     # Load the summarization pipeline
-    distilbert_summarizer_model = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6", tokenizer="sshleifer/distilbart-cnn-12-6")
+    distilbert_summarizer_model = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6", tokenizer="sshleifer/distilbart-cnn-12-6", device=0)
 
     # Evaluate distilbert model with test dataset
     distilbert_test = evaluate_distilBART(test,distilbert_summarizer_model)
 
     # Save results
     print(distilbert_test.head())
-    distilbert_test.to_csv(dir+"/data/distilbart_test_metrics.csv")
+    distilbert_test.to_csv(dir+"/data/distilbart_test_metrics.csv", index = False)
 
 

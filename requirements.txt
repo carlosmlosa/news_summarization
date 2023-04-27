@@ -10,3 +10,5 @@ tweepy
 lxml
 bert-extractive-summarizer
 textstat
+rouge_score
+bert_score
