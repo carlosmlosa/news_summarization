@@ -6,7 +6,7 @@ from bert_reference_metrics import calculate_scores
 import re
 
 
-def evaluate_distilBERT(texts,model):
+def evaluate_distilBART(texts,model):
     """Function that summarizes texts and computes the metrics"""
     results_df = pd.DataFrame(columns = ["Text","Highlights","Summary","BLEU","Rouge1","RougeL"])
     for i in range(len(texts)):
@@ -47,10 +47,10 @@ if __name__ == "__main__":
     distilbert_summarizer_model = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6", tokenizer="sshleifer/distilbart-cnn-12-6")
 
     # Evaluate distilbert model with test dataset
-    distilbert_test = evaluate_distilBERT(test,distilbert_summarizer_model)
+    distilbert_test = evaluate_distilBART(test,distilbert_summarizer_model)
 
     # Save results
     print(distilbert_test.head())
-    distilbert_test.to_csv(dir+"/data/distilbert_test_metrics.csv")
+    distilbert_test.to_csv(dir+"/data/distilbart_test_metrics.csv")
 
 

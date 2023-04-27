@@ -3,5 +3,7 @@
 /data/validation.csv
 /data/reference_metrics.csv
 /data/reference_metrics_full.csv
+/data/distilbart_test_metrics.csv"
+/data/distilbert_test_metrics.csv"
 /.vscode/launch.json
 /models
